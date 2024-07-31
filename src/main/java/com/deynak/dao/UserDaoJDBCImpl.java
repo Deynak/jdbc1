@@ -1,7 +1,6 @@
 package com.deynak.dao;
 
 import com.deynak.model.User;
-import com.deynak.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTableSQL);
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,6 +33,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(dropTableSQL);
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,6 +48,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,6 +62,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(deleteUserSQL)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,6 +83,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 users.add(user);
             }
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,6 +96,7 @@ public class UserDaoJDBCImpl extends User implements UserDao {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(cleanTableSQL);
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
